@@ -7,35 +7,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { settings } from "./settings";
+import { LikedCard } from "./LikedCard";
 import styled from "styled-components";
-
-const Card = styled.div`
-  cursor: pointer;
-  transition: all 0.3s;
-  max-height: 160px;
-  margin: 10px;
-  position: relative;
-  &:hover {
-    /* transform: scale(1.1);
-    transition: all 0.3s; */
-  }
-  img {
-    width: 92%;
-    height: 100%;
-    z-index: 20;
-  }
-`;
-const Remove = styled.div`
-  width: 18px;
-  height: 18px;
-  border-radius: 100%;
-  background: red;
-  position: absolute;
-  top: -4px;
-  right: 15px;
-  z-index: 0;
-  color: #fff;
-`;
 
 const Image = styled.div`
   max-width: 550px;
@@ -46,6 +19,10 @@ const Image = styled.div`
     width: 100%;
     height: auto;
   }
+`;
+
+const CardWrapper = styled.div`
+  display: flex;
 `;
 
 function App() {
@@ -73,21 +50,32 @@ function App() {
       </nav>
       <div>
         <h2>Approved images</h2>
-        <Slider {...settings}>
-          {liked ? (
-            liked.map((pic: string) => {
-              console.log(liked);
-              return (
-                <Card key={pic}>
-                  <img src={pic} alt="" />
-                  <Remove onClick={() => handleRemove(pic)}>X</Remove>
-                </Card>
-              );
-            })
-          ) : (
-            <li>+</li>
-          )}
-        </Slider>
+
+        {liked.length > 3 ? (
+          // <Slider {...settings}>
+          <CardWrapper>
+            {liked.map((pic: string) => (
+              <LikedCard
+                pic={pic}
+                handleRemove={handleRemove}
+                key={pic}
+                isLess
+              />
+            ))}
+          </CardWrapper>
+        ) : (
+          // </Slider>
+          <CardWrapper>
+            {liked.map((pic: string) => (
+              <LikedCard
+                pic={pic}
+                handleRemove={handleRemove}
+                key={pic}
+                isLess
+              />
+            ))}
+          </CardWrapper>
+        )}
       </div>
       {/* main */}
       <div>
